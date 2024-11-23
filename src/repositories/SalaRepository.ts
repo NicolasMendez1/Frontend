@@ -1,32 +1,52 @@
 import { Sala } from '../entities/Sala';
-import salas from '../data/salas.json';
 
-export class SalaRepository {
-    private salas: Sala[] = salas;
+class SalaRepository {
+    private salas: Sala[] = [];
+    subscribers: (() => void)[] = [];
 
-    getAll(): Sala[] {
+    constructor() {
+        this.fetchSalas();
+    }
+
+    subscribe(callback: () => void): void {
+        this.subscribers.push(callback);
+    }
+
+    unsubscribe(callback: () => void): void {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+
+    notifySubscribers(): void {
+        this.subscribers.forEach(callback => {
+            callback();
+        });
+    }
+
+    async fetchSalas(): Promise<void> {
+        try {
+            const response = await fetch('http://localhost:3000/salas');
+            if (!response.ok) {
+                throw new Error('Error al obtener las salas');
+            }
+            this.salas = await response.json();
+            //this.notifySubscribers();
+        } catch (error) {
+            console.error('Error fetching salas:', error);
+        }
+    }
+
+    async getAll(): Promise<Sala[]> {
+        await this.fetchSalas();
         return this.salas;
     }
 
-    getById(codigo: string): Sala | undefined {
+    async getById(codigo: string): Promise<Sala | undefined> {
+        if (this.salas.length === 0) {
+            await this.fetchSalas();
+        }
         return this.salas.find(sala => sala.codigo === codigo);
     }
+}
 
-    create(sala: Sala): void {
-        this.salas.push(sala);
-    }
-
-    update(sala: Sala): void {
-        const index = this.salas.findIndex(s => s.codigo === sala.codigo);
-        if (index !== -1) {
-            this.salas[index] = sala;
-        }
-    }
-
-    delete(codigo: string): void {
-        const index = this.salas.findIndex(sala => sala.codigo === codigo);
-        if (index !== -1) {
-            this.salas.splice(index, 1);
-        }
-    }
-} 
+export const salaRepository = new SalaRepository();
+(window as any).salaRepository = salaRepository; 

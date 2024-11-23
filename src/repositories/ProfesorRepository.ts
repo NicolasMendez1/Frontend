@@ -1,50 +1,53 @@
 import { Profesor } from '../entities/Profesor';
-import profesores from '../data/profesores.json';
 
 class ProfesorRepository {
-    private profesores: Profesor[] = profesores;
+    private profesores: Profesor[] = [];
     subscribers: (() => void)[] = [];
+
+    constructor() {
+        this.fetchProfesores();
+    }
 
     subscribe(callback: () => void): void {
         this.subscribers.push(callback);
     }
 
-    private notifySubscribers(): void {
+    unsubscribe(callback: () => void): void {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+
+    notifySubscribers(): void {
         this.subscribers.forEach(callback => {
             callback();
         });
     }
 
-    getAll(): Profesor[] {
+    async fetchProfesores(): Promise<void> {
+        try {
+            const response = await fetch('http://localhost:3000/profesores');
+            if (!response.ok) {
+                throw new Error('Error al obtener los profesores');
+            }
+            this.profesores = await response.json();
+            this.notifySubscribers();
+        } catch (error) {
+            console.error('Error fetching profesores:', error);
+        }
+    }
+
+    async getAll(): Promise<Profesor[]> {
+        await this.fetchProfesores();
         return this.profesores;
     }
 
-    getById(codigo: number): Profesor | undefined {
+    async getById(codigo: number): Promise<Profesor | undefined> {
+        if (this.profesores.length === 0) {
+            await this.fetchProfesores();
+        }
         return this.profesores.find(profesor => profesor.codigo === codigo);
-    }
-
-    create(profesor: Profesor): void {
-        this.profesores.push(profesor);
-        this.notifySubscribers();
-    }
-
-    update(profesor: Profesor): void {
-        const index = this.profesores.findIndex(p => p.codigo === profesor.codigo);
-        if (index !== -1) {
-            this.profesores[index] = profesor;
-            this.notifySubscribers();
-        }
-    }
-
-    delete(codigo: number): void {
-        const index = this.profesores.findIndex(profesor => profesor.codigo === codigo);
-        if (index !== -1) {
-            this.profesores.splice(index, 1);
-            this.notifySubscribers();
-        }
     }
 }
 
-// Crear una instancia global
 const profesorRepository = new ProfesorRepository();
+(window as any).profesorRepository = profesorRepository;
 export default profesorRepository; 
