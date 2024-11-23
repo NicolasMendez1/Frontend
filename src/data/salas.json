@@ -1,0 +1,14 @@
+[
+  {
+    "codigo": "A101",
+    "nombre": "Sala Multimedia 1",
+    "capacidad": 40,
+    "esLaboratorio": false
+  },
+  {
+    "codigo": "LAB01",
+    "nombre": "Laboratorio Computación 1",
+    "capacidad": 30,
+    "esLaboratorio": true
+  }
+] 

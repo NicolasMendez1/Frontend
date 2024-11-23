@@ -1,0 +1,32 @@
+[
+  {
+    "codigo": "INF3240",
+    "nombre": "Programación Avanzada",
+    "horasCatedra": 4,
+    "horasLaboratorio": 2,
+    "nivel": 3,
+    "esAtemporal": false,
+    "esCursoGeneral": false,
+    "cantidadDeEstudiantes": 30
+  },
+  {
+    "codigo": "MAT1010",
+    "nombre": "Cálculo I",
+    "horasCatedra": 6,
+    "horasLaboratorio": 0,
+    "nivel": 1,
+    "esAtemporal": false,
+    "esCursoGeneral": true,
+    "cantidadDeEstudiantes": 45
+  },
+  {
+    "codigo": "INF113",
+    "nombre": "Introducción a la Computación 1",
+    "horasCatedra": 6,
+    "horasLaboratorio": 0,
+    "nivel": 1,
+    "esAtemporal": false,
+    "esCursoGeneral": true,
+    "cantidadDeEstudiantes": 45
+  }
+] 

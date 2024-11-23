@@ -1,0 +1,16 @@
+[
+  {
+    "codigo": 1001,
+    "nombre": "Juan",
+    "apellidoPaterno": "Pérez",
+    "apellidoMaterno": "García",
+    "esFullTime": true
+  },
+  {
+    "codigo": 1002,
+    "nombre": "María",
+    "apellidoPaterno": "González",
+    "apellidoMaterno": "López",
+    "esFullTime": false
+  }
+] 

@@ -1,0 +1,10 @@
+[
+  {
+    "codigo": "INF3240-1",
+    "codigoProfesor": 1001,
+    "codigoCurso": "INF3240",
+    "codigoSalaCatedra": "A101",
+    "codigoSalaLaboratorio": "LAB01",
+    "cantidadDeEstudiantesSeccion": 30
+  }
+] 
