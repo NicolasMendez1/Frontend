@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import profesorRepository from '../../../repositories/ProfesorRepository';
+import { Profesor } from '../../../entities';
 
 export default function ListadoProfesores() {
-    const [profesores, setProfesores] = useState([]);
+    const [profesores, setProfesores] = useState<Profesor[]>([]);
     const [loading, setLoading] = useState(true);
 
     const cargarProfesores = async () => {
@@ -21,6 +22,10 @@ export default function ListadoProfesores() {
 
     useEffect(() => {
         cargarProfesores();
+        profesorRepository.subscribe(cargarProfesores);
+        return () => {
+            profesorRepository.unsubscribe(cargarProfesores);
+        };
     }, []);
 
     if (loading) {
@@ -31,17 +36,19 @@ export default function ListadoProfesores() {
         <ul className="space-y-2">
             {profesores.map((profesor, index) => (
                 <li key={index} className="bg-white p-4 rounded-md shadow">
-                    <h3 className="font-bold">{profesor.nombreProfesor}</h3>
+                    <h3 className="font-bold">{profesor.nombre} {profesor.apellidoPaterno} {profesor.apellidoMaterno}</h3>
                     <p>Código: {profesor.codigo}</p>
-                    <p>Tipo: {profesor.es_full_time ? 'Full Time' : 'Part Time'}</p>
-                    {!profesor.es_full_time && profesor.bloquesDisponibles && (
+                    <p>Tipo: {profesor.esFullTime ? 'Full Time' : 'Part Time'}</p>
+                    {!profesor.esFullTime && profesor.bloquesDisponibles && (
                         <div>
                             <p>Bloques Disponibles:</p>
                             <ul className="list-disc pl-5">
-                                {profesor.bloquesDisponibles.map((dia, index) => (
-                                    dia.length > 0 && (
-                                        <li key={index}>
-                                            Día {index + 1}: {dia.join(', ')}
+                                {profesor.bloquesDisponibles.map((dia, diaIndex) => (
+                                    dia.some(bloque => bloque) && (
+                                        <li key={diaIndex}>
+                                            Día {diaIndex + 1}: {dia.map((bloque, bloqueIndex) => 
+                                                bloque ? `Bloque ${bloqueIndex + 1}` : null
+                                            ).filter(Boolean).join(', ')}
                                         </li>
                                     )
                                 ))}
@@ -52,4 +59,4 @@ export default function ListadoProfesores() {
             ))}
         </ul>
     );
-} 
+}

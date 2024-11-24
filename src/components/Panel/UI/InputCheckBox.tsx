@@ -1,6 +1,12 @@
-import React from 'react';
 
-export default function InputCheckBox({ label, checked, onChange, required = false }) {
+interface InputCheckBoxProps {
+    label: string;
+    checked: boolean;
+    onChange: (checked: boolean) => void;
+    required?: boolean;
+}
+
+export default function InputCheckBox({ label, checked, onChange, required = false }: InputCheckBoxProps) {
     return (
         <div className="flex space-x-2 items-center">
             <label className="block text-sm font-medium text-gray-700">

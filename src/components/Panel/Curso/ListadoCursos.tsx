@@ -23,12 +23,10 @@ export default function ListadoCursos() {
 
     useEffect(() => {
         cargarCursos();
-        /*
         cursoRepository.subscribe(cargarCursos);
         return () => {
             cursoRepository.unsubscribe(cargarCursos);
         };
-        */
     }, []);
 
     if (loading) {

@@ -1,14 +1,15 @@
-import React from 'react';
-
-
 const DAYS = ['L', 'M', 'X', 'J', 'V', 'S'];
 const BLOCKS = Array.from({ length: 12 }, (_, i) => i + 1);
 
-export default function SelectorDias({ blocks, onBlockToggle }) {
-  const isBlockSelected = (dayIndex, blockIndex) => {
-    return blocks[dayIndex][blockIndex] === true;
-  };
+interface SelectorDiasProps {
+    blocks: boolean[][];
+    onBlockToggle: (dayIndex: number, blockIndex: number) => void;
+}
 
+export default function SelectorDias({ blocks, onBlockToggle }: SelectorDiasProps) {
+  const isBlockSelected = (dayIndex: number, blockIndex: number) => {
+    return blocks[dayIndex][blockIndex - 1] === true;
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -40,7 +41,7 @@ export default function SelectorDias({ blocks, onBlockToggle }) {
                 >
                   <button
                     type="button"
-                    onClick={() => onBlockToggle(dayIndex, block)}
+                    onClick={() => onBlockToggle(dayIndex, block - 1)}
                     className={`w-4 h-4 rounded-sm transition-colors    items-center justify-center ${
                       isBlockSelected(dayIndex, block)
                         ? 'bg-blue-500 hover:bg-blue-600'

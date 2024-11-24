@@ -40,13 +40,21 @@ class SalaRepository {
         return this.salas;
     }
 
-    async getById(codigo: string): Promise<Sala | undefined> {
-        if (this.salas.length === 0) {
-            await this.fetchSalas();
+    async create(sala: Sala): Promise<void> {
+        console.log("Creando sala:", sala);
+        const response = await fetch('http://localhost:3000/salas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sala)
+        });
+        if (!response.ok) {
+            throw new Error('Error al crear la sala');
         }
-        return this.salas.find(sala => sala.codigo === codigo);
+        this.notifySubscribers();
     }
 }
 
 export const salaRepository = new SalaRepository();
 (window as any).salaRepository = salaRepository; 
+export default salaRepository;
+

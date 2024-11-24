@@ -29,7 +29,6 @@ class CursoRepository {
                 throw new Error('Error al obtener los cursos');
             }
             this.cursos = await response.json();
-            this.notifySubscribers();
         } catch (error) {
             console.error('Error fetching cursos:', error);
         }
@@ -38,6 +37,18 @@ class CursoRepository {
     async getAll(): Promise<Curso[]> {
         await this.fetchCursos();
         return this.cursos;
+    }
+
+    async create(curso: Curso): Promise<void> {
+        const response = await fetch('http://localhost:3000/cursos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(curso)
+        });
+        if (!response.ok) {
+            throw new Error('Error al crear el curso');
+        }
+        this.notifySubscribers();
     }
 }
 
