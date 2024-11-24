@@ -35,20 +35,29 @@ export default function ListadoCursos() {
 
     return (
         <ul className="space-y-2">
-            {cursos.map((curso, index) => (
-                <li key={index} className="bg-white p-4 rounded-md shadow">
-                    <h3 className="font-bold">{curso.nombre}</h3>
-                    <p>Código: {curso.codigo}</p>
-                    <p>Nivel: {curso.nivel}</p>
-                    <p>Horas Cátedra: {curso.horasCatedra}</p>
-                    <p>Horas Laboratorio: {curso.horasLaboratorio}</p>
-                    <p>Cantidad de Estudiantes: {curso.cantidadDeEstudiantes}</p>
-                    <p>Es Atemporal: {curso.esAtemporal ? 'Si' : 'No'}</p>
-                    <p>Es Curso General: {curso.esCursoGeneral ? 'Si' : 'No'}</p>
-                </li>
-            ))}
+          {cursos.map((curso, index) => (
+            <li key={index} className="bg-white p-4 rounded-md shadow flex justify-between items-start">
+              <div>
+                <h3 className="font-bold">{curso.nombre}</h3>
+                <p>Código: {curso.codigo}</p>
+                <p>Nivel: {curso.nivel}</p>
+                <p>Horas Cátedra: {curso.horasCatedra}</p>
+                <p>Horas Laboratorio: {curso.horasLaboratorio}</p>
+                <p>Cantidad de Estudiantes: {curso.cantidadDeEstudiantes}</p>
+                <p>Es Atemporal: {curso.esAtemporal ? 'Si' : 'No'}</p>
+                <p>Es Curso General: {curso.esCursoGeneral ? 'Si' : 'No'}</p>
+              </div>
+              <button
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                aria-label={`Delete curso ${curso.nombre}`}
+                onClick={() => console.log(curso)}
+              >
+                Eliminar
+              </button>
+            </li>
+          ))}
         </ul>
-    );
+      )
 }
 
 

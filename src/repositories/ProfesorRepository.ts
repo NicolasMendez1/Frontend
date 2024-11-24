@@ -29,7 +29,7 @@ class ProfesorRepository {
                 throw new Error('Error al obtener los profesores');
             }
             this.profesores = await response.json();
-            this.notifySubscribers();
+            //this.notifySubscribers();
         } catch (error) {
             console.error('Error fetching profesores:', error);
         }
@@ -37,6 +37,7 @@ class ProfesorRepository {
 
     async getAll(): Promise<Profesor[]> {
         await this.fetchProfesores();
+        console.log("Profesores:", this.profesores);
         return this.profesores;
     }
 

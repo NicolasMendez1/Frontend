@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import profesorRepository from '../../../repositories/ProfesorRepository';
 import { Profesor } from '../../../entities';
+import HorarioProfesor from './HorarioProfesor';
 
 export default function ListadoProfesores() {
     const [profesores, setProfesores] = useState<Profesor[]>([]);
@@ -32,31 +33,32 @@ export default function ListadoProfesores() {
         return <div>Cargando profesores...</div>;
     }
 
+
+
     return (
         <ul className="space-y-2">
-            {profesores.map((profesor, index) => (
-                <li key={index} className="bg-white p-4 rounded-md shadow">
-                    <h3 className="font-bold">{profesor.nombre} {profesor.apellidoPaterno} {profesor.apellidoMaterno}</h3>
-                    <p>Código: {profesor.codigo}</p>
-                    <p>Tipo: {profesor.esFullTime ? 'Full Time' : 'Part Time'}</p>
-                    {!profesor.esFullTime && profesor.bloquesDisponibles && (
-                        <div>
-                            <p>Bloques Disponibles:</p>
-                            <ul className="list-disc pl-5">
-                                {profesor.bloquesDisponibles.map((dia, diaIndex) => (
-                                    dia.some(bloque => bloque) && (
-                                        <li key={diaIndex}>
-                                            Día {diaIndex + 1}: {dia.map((bloque, bloqueIndex) => 
-                                                bloque ? `Bloque ${bloqueIndex + 1}` : null
-                                            ).filter(Boolean).join(', ')}
-                                        </li>
-                                    )
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </li>
-            ))}
+          {profesores.map((profesor: Profesor, index: number) => (
+            <li key={index} className="bg-white p-4 rounded-md shadow flex justify-between items-start">
+              <div>
+                <h3 className="font-bold">{profesor.nombre} {profesor.apellidoPaterno} {profesor.apellidoMaterno}</h3>
+                <p>Código: {profesor.codigo}</p>
+                <p>Tipo: {profesor.esFullTime ? 'Full Time' : 'Part Time'}</p>
+                {!profesor.esFullTime && profesor.bloquesDisponibles && (
+                  <div>
+                    <p>Bloques Disponibles:</p>
+                    <HorarioProfesor disponibilidad={profesor.bloquesDisponibles} />
+                  </div>
+                )}
+              </div>
+              <button
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                onClick={() => console.log(profesor)}
+                aria-label={`Delete profesor ${profesor.nombre}`}
+              >
+                Eliminar
+              </button>
+            </li>
+          ))}
         </ul>
-    );
+      )
 }

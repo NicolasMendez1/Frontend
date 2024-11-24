@@ -1,32 +1,57 @@
 import { Seccion } from '../entities/Seccion';
-import secciones from '../data/secciones.json';
 
-export class SeccionRepository {
-    private secciones: Seccion[] = secciones;
+class SeccionRepository {
+    secciones: Seccion[] = [];
+    subscribers: (() => void)[] = [];
 
-    getAll(): Seccion[] {
+    constructor() {
+        this.fetchSecciones();
+    }
+
+    subscribe(callback: () => void): void {
+        this.subscribers.push(callback);
+    }
+
+    unsubscribe(callback: () => void): void {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+
+    notifySubscribers(): void {
+        this.subscribers.forEach(callback => {
+            callback();
+        });
+    }
+
+    async fetchSecciones(): Promise<void> {
+        try {
+            const response = await fetch('http://localhost:3000/secciones');
+            if (!response.ok) {
+                throw new Error('Error al obtener las secciones');
+            }
+            this.secciones = await response.json();
+        } catch (error) {
+            console.error('Error fetching secciones:', error);
+        }
+    }
+
+    async getAll(): Promise<Seccion[]> {
+        await this.fetchSecciones();
         return this.secciones;
     }
 
-    getById(codigo: string): Seccion | undefined {
-        return this.secciones.find(seccion => seccion.codigo === codigo);
-    }
-
-    create(seccion: Seccion): void {
-        this.secciones.push(seccion);
-    }
-
-    update(seccion: Seccion): void {
-        const index = this.secciones.findIndex(s => s.codigo === seccion.codigo);
-        if (index !== -1) {
-            this.secciones[index] = seccion;
+    async create(seccion: Seccion): Promise<void> {
+        const response = await fetch('http://localhost:3000/secciones', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(seccion)
+        });
+        if (!response.ok) {
+            throw new Error('Error al crear la sección');
         }
+        this.notifySubscribers();
     }
+}
 
-    delete(codigo: string): void {
-        const index = this.secciones.findIndex(seccion => seccion.codigo === codigo);
-        if (index !== -1) {
-            this.secciones.splice(index, 1);
-        }
-    }
-} 
+const seccionRepository = new SeccionRepository();
+(window as any).seccionRepository = seccionRepository;
+export default seccionRepository;
