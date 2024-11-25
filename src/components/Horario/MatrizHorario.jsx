@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Bloque from './Bloque';
-// Importamos los datos necesarios
 import seccionBloqueDiaData from '../../data/seccionBloqueDia.json';
+import seccionRepository from '../../repositories/SeccionRepository';
 
 export default function MatrizHorario() {
+  const [secciones, setSecciones] = useState([]);
+  
+  useEffect(() => {
+    const cargarSecciones = async () => {
+      const seccionesData = await seccionRepository.getAll();
+      setSecciones(seccionesData);
+    };
+    
+    cargarSecciones();
+    
+    // Suscribirse a cambios
+    seccionRepository.subscribe(cargarSecciones);
+    
+    // Limpieza
+    return () => seccionRepository.unsubscribe(cargarSecciones);
+  }, []);
+
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const bloques = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  // Convertimos los días a códigos numéricos para hacer match con SeccionBloqueDia
   const diaACodigo = {
     'Lunes': 1,
     'Martes': 2,
@@ -17,13 +33,21 @@ export default function MatrizHorario() {
     'Sábado': 6
   };
 
-  // Modificamos la función para obtener todas las secciones de un bloque y día
   const obtenerSecciones = (dia, bloque) => {
     const codigoDia = diaACodigo[dia];
-    return seccionBloqueDiaData.filter(seccion => 
-      seccion.codigoDia === codigoDia && 
-      seccion.codigoBloque === bloque
+    const seccionesBloque = seccionBloqueDiaData.filter(seccionBloque => 
+      seccionBloque.codigoDia === codigoDia && 
+      seccionBloque.codigoBloque === bloque
     );
+
+    // Enriquecer con la información completa de la sección
+    return seccionesBloque.map(seccionBloque => ({
+      ...seccionBloque,
+      infoSeccion: secciones.find(s => 
+        s.codigo === seccionBloque.codigoSeccion && 
+        s.codigoCurso === seccionBloque.codigoCurso
+      )
+    }));
   };
 
   const estilo_dia = "px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider";

@@ -1,21 +1,21 @@
 [
   {
-    "codigoSeccion": "INF3240-1",
-    "codigoCurso": "INF3240",
+    "codigoSeccion": "S2",
+    "codigoCurso": "INF-114",
     "codigoDia": 1,
     "codigoBloque": 1,
     "esBloqueDeLaboratorio": false
   },
   {
-    "codigoSeccion": "INF3240-2",
-    "codigoCurso": "INF3240",
+    "codigoSeccion": "S2",
+    "codigoCurso": "INF-114",
     "codigoDia": 1,
     "codigoBloque": 1,
     "esBloqueDeLaboratorio": false
   },
   {
-    "codigoSeccion": "INF3240-3",
-    "codigoCurso": "INF3240",
+    "codigoSeccion": "S1",
+    "codigoCurso": "INF-113",
     "codigoDia": 1,
     "codigoBloque": 1,
     "esBloqueDeLaboratorio": false
