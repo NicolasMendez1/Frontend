@@ -3,6 +3,7 @@ import { Seccion } from '../entities/Seccion';
 class SeccionRepository {
     secciones: Seccion[] = [];
     seccionSeleccionada: Seccion | null = null;
+    esBloqueLaboratorio: boolean = false;
     subscribers: (() => void)[] = [];
 
     constructor() {
@@ -62,12 +63,13 @@ class SeccionRepository {
         this.notifySubscribers();
     }
 
-    setSeccionSeleccionada(seccion: Seccion): void {
+    setSeccionSeleccionada(seccion: Seccion, esBloqueLaboratorio: boolean): void {
         this.seccionSeleccionada = seccion;
+        this.esBloqueLaboratorio = esBloqueLaboratorio;
     }
 
-    getSeccionSeleccionada(): Seccion | null {
-        return this.seccionSeleccionada;
+    getSeccionSeleccionada(): [Seccion, boolean] | null {
+        return this.seccionSeleccionada ? [this.seccionSeleccionada, this.esBloqueLaboratorio] : null;
     }
 }
 

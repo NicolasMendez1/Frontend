@@ -21,7 +21,8 @@ export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 	};
 
 	const handleClick = async () => {
-		const seccionSeleccionada = seccionRepository.getSeccionSeleccionada();
+		const [seccionSeleccionada, esBloqueLaboratorio] = seccionRepository.getSeccionSeleccionada();
+
 		console.log(seccionSeleccionada);
 		if (seccionSeleccionada) {
 			const nuevaSeccionBloqueDia = {
@@ -29,7 +30,7 @@ export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 				codigoCurso: seccionSeleccionada.codigoCurso,
 				codigoDia: diaACodigo[dia],
 				codigoBloque: bloque,
-				esBloqueDeLaboratorio: false
+				esBloqueDeLaboratorio: esBloqueLaboratorio
 			};
 
 			try {
@@ -71,12 +72,16 @@ export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 									<div className="text-xs text-gray-600">
 										Profesor: {seccion.infoSeccion.codigoProfesor}
 									</div>
+									{!seccion.esBloqueDeLaboratorio && (
 									<div className="text-xs text-gray-600">
 										Sala Catedra: {seccion.infoSeccion.codigoSalaCatedra}
 									</div>
+									)}
+									{seccion.esBloqueDeLaboratorio && (
 									<div className="text-xs text-gray-600">
 										Sala Laboratorio: {seccion.infoSeccion.codigoSalaLaboratorio}
 									</div>
+									)}
 								</>
 							)}
 							{seccion.esBloqueDeLaboratorio && (

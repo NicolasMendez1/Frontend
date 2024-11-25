@@ -26,8 +26,13 @@ export default function ListadoSecciones() {
         await seccionRepository.delete(seccion.codigo, seccion.codigoCurso);
     }
 
-    const handleSelect = (seccion: Seccion) => {
-        seccionRepository.setSeccionSeleccionada(seccion);
+    const handleSelectCatedra = (seccion: Seccion) => {
+        seccionRepository.setSeccionSeleccionada(seccion, false);
+    }
+
+
+    const handleSelectLaboratorio = (seccion: Seccion) => {
+        seccionRepository.setSeccionSeleccionada(seccion, true);
     }
 
     useEffect(() => {
@@ -55,11 +60,18 @@ export default function ListadoSecciones() {
               </div>
               <div className="flex flex-col space-y-2">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                  onClick={() => handleSelect(seccion)}
+                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+                  onClick={() => handleSelectCatedra(seccion)}
                   aria-label={`Select section ${seccion.codigo}`}
                 >
-                  Seleccionar
+                  Agregar bloque de cátedra
+                </button>
+                <button
+                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+                  onClick={() => handleSelectLaboratorio(seccion)}
+                  aria-label={`Select section ${seccion.codigo}`}
+                >
+                  Agregar bloque de laboratorio
                 </button>
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
