@@ -2,6 +2,7 @@ import { Seccion } from '../entities/Seccion';
 
 class SeccionRepository {
     secciones: Seccion[] = [];
+    seccionSeleccionada: Seccion | null = null;
     subscribers: (() => void)[] = [];
 
     constructor() {
@@ -59,6 +60,14 @@ class SeccionRepository {
             throw new Error('Error al eliminar la sección');
         }
         this.notifySubscribers();
+    }
+
+    setSeccionSeleccionada(seccion: Seccion): void {
+        this.seccionSeleccionada = seccion;
+    }
+
+    getSeccionSeleccionada(): Seccion | null {
+        return this.seccionSeleccionada;
     }
 }
 

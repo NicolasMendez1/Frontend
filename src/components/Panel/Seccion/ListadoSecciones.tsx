@@ -26,6 +26,10 @@ export default function ListadoSecciones() {
         await seccionRepository.delete(seccion.codigo, seccion.codigoCurso);
     }
 
+    const handleSelect = (seccion: Seccion) => {
+        seccionRepository.setSeccionSeleccionada(seccion);
+    }
+
     useEffect(() => {
         cargarSecciones();
         seccionRepository.subscribe(cargarSecciones);
@@ -37,7 +41,6 @@ export default function ListadoSecciones() {
     if (loading) {
         return <div>Cargando secciones...</div>;
     }
-
     return (
         <ul className="space-y-2">
           {secciones.map((seccion, index) => (
@@ -50,15 +53,24 @@ export default function ListadoSecciones() {
                 <p>Sala Laboratorio: {seccion.codigoSalaLaboratorio}</p>
                 <p>Cantidad de Estudiantes: {seccion.cantidadDeEstudiantesSeccion}</p>
               </div>
-              <button
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                onClick={() => handleDelete(seccion)}
-                aria-label={`Delete section ${seccion.codigo}`}
-              >
-                Eliminar
-              </button>
+              <div className="flex flex-col space-y-2">
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  onClick={() => handleSelect(seccion)}
+                  aria-label={`Select section ${seccion.codigo}`}
+                >
+                  Seleccionar
+                </button>
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                  onClick={() => handleDelete(seccion)}
+                  aria-label={`Delete section ${seccion.codigo}`}
+                >
+                  Eliminar
+                </button>
+              </div>
             </li>
           ))}
         </ul>
-      )
+      );
 }

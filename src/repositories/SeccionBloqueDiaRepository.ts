@@ -1,7 +1,7 @@
 import { SeccionBloqueDia } from '../entities/SeccionBloqueDia';
 import seccionBloqueDia from '../data/seccionBloqueDia.json';
 
-export class SeccionBloqueDiaRepository {
+class SeccionBloqueDiaRepository {
     private seccionesBloqueDia: SeccionBloqueDia[] = seccionBloqueDia;
 
     getAll(): SeccionBloqueDia[] {
@@ -36,3 +36,9 @@ export class SeccionBloqueDiaRepository {
         );
     }
 } 
+
+const seccionBloqueDiaRepository = new SeccionBloqueDiaRepository();
+(window as any).seccionBloqueDiaRepository = seccionBloqueDiaRepository;
+export default seccionBloqueDiaRepository;
+
+
