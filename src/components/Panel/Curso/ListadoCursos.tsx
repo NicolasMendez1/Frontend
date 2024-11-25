@@ -33,6 +33,11 @@ export default function ListadoCursos() {
         return <div>Cargando cursos...</div>;
     }
 
+
+    const handleDelete = async (curso: Curso) => {
+        await cursoRepository.delete(curso.codigo);
+    }
+
     return (
         <ul className="space-y-2">
           {cursos.map((curso, index) => (
@@ -50,7 +55,7 @@ export default function ListadoCursos() {
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                 aria-label={`Delete curso ${curso.nombre}`}
-                onClick={() => console.log(curso)}
+                onClick={() => handleDelete(curso)}
               >
                 Eliminar
               </button>

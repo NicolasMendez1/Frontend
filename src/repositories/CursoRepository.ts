@@ -50,6 +50,16 @@ class CursoRepository {
         }
         this.notifySubscribers();
     }
+
+    async delete(id: string): Promise<void> {
+        const response = await fetch(`http://localhost:3000/cursos/${id}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Error al eliminar el curso');
+        }
+        this.notifySubscribers();
+    }
 }
 
 const cursoRepository = new CursoRepository();
