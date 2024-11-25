@@ -2,23 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Bloque from './Bloque';
 import seccionBloqueDiaData from '../../data/seccionBloqueDia.json';
 import seccionRepository from '../../repositories/SeccionRepository';
-
+import seccionBloqueDiaRepository from '../../repositories/SeccionBloqueDiaRepository';
 export default function MatrizHorario() {
   const [secciones, setSecciones] = useState([]);
-  
+  const [seccionesBloqueDia, setSeccionesBloqueDia] = useState([]);
   useEffect(() => {
     const cargarSecciones = async () => {
       const seccionesData = await seccionRepository.getAll();
       setSecciones(seccionesData);
     };
-    
     cargarSecciones();
+
+    const cargarSeccionesBloqueDia = async () => {
+      const seccionesBloqueDiaData = await seccionBloqueDiaRepository.getAll();
+      setSeccionesBloqueDia(seccionesBloqueDiaData);
+    };
+    cargarSeccionesBloqueDia();
     
     // Suscribirse a cambios
     seccionRepository.subscribe(cargarSecciones);
+    seccionBloqueDiaRepository.subscribe(cargarSeccionesBloqueDia);
     
     // Limpieza
-    return () => seccionRepository.unsubscribe(cargarSecciones);
+    return () => {
+      seccionRepository.unsubscribe(cargarSecciones);
+      seccionBloqueDiaRepository.unsubscribe(cargarSeccionesBloqueDia);
+    };
   }, []);
 
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -35,11 +44,16 @@ export default function MatrizHorario() {
 
   const obtenerSecciones = (dia, bloque) => {
     const codigoDia = diaACodigo[dia];
-    const seccionesBloque = seccionBloqueDiaData.filter(seccionBloque => 
+    const seccionesBloque = seccionesBloqueDia.filter(seccionBloque => 
       seccionBloque.codigoDia === codigoDia && 
       seccionBloque.codigoBloque === bloque
     );
 
+    if(seccionesBloque.length > 0) {
+      console.log("codigoDia: " + codigoDia);
+      console.log("bloque: " + bloque);
+      console.log(seccionesBloque);
+    } 
     // Enriquecer con la información completa de la sección
     return seccionesBloque.map(seccionBloque => ({
       ...seccionBloque,

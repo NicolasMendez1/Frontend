@@ -1,41 +1,78 @@
 import { SeccionBloqueDia } from '../entities/SeccionBloqueDia';
-import seccionBloqueDia from '../data/seccionBloqueDia.json';
 
 class SeccionBloqueDiaRepository {
-    private seccionesBloqueDia: SeccionBloqueDia[] = seccionBloqueDia;
+    private seccionesBloqueDia: SeccionBloqueDia[] = [];
+    private subscribers: (() => void)[] = [];
 
-    getAll(): SeccionBloqueDia[] {
+    constructor() {
+        this.fetchSeccionesBloqueDia();
+    }
+
+    subscribe(callback: () => void): void {
+        this.subscribers.push(callback);
+    }
+
+    unsubscribe(callback: () => void): void {
+        this.subscribers = this.subscribers.filter(sub => sub !== callback);
+    }
+
+    notifySubscribers(): void {
+        this.subscribers.forEach(callback => {
+            callback();
+        });
+    }
+
+    async fetchSeccionesBloqueDia(): Promise<void> {
+        try {
+            const response = await fetch('http://localhost:3000/seccionesBloqueDia');
+            if (!response.ok) {
+                throw new Error('Error al obtener las secciones bloque día');
+            }
+            this.seccionesBloqueDia = await response.json();
+        } catch (error) {
+            console.error('Error fetching seccionesBloqueDia:', error);
+        }
+    }
+
+    async getAll(): Promise<SeccionBloqueDia[]> {
+        await this.fetchSeccionesBloqueDia();
         return this.seccionesBloqueDia;
     }
 
-    getByCodigos(codigoSeccion: string, codigoCurso: string): SeccionBloqueDia[] {
-        return this.seccionesBloqueDia.filter(
-            sbd => sbd.codigoSeccion === codigoSeccion && sbd.codigoCurso === codigoCurso
-        );
-    }
-
-    create(seccionBloqueDia: SeccionBloqueDia): void {
-        this.seccionesBloqueDia.push(seccionBloqueDia);
-    }
-
-    update(seccionBloqueDia: SeccionBloqueDia): void {
-        const index = this.seccionesBloqueDia.findIndex(
-            sbd => sbd.codigoSeccion === seccionBloqueDia.codigoSeccion && 
-                  sbd.codigoCurso === seccionBloqueDia.codigoCurso &&
-                  sbd.codigoBloque === seccionBloqueDia.codigoBloque &&
-                  sbd.codigoDia === seccionBloqueDia.codigoDia
-        );
-        if (index !== -1) {
-            this.seccionesBloqueDia[index] = seccionBloqueDia;
+    async create(seccionBloqueDia: SeccionBloqueDia): Promise<void> {
+        const response = await fetch('http://localhost:3000/seccionesBloqueDia', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(seccionBloqueDia)
+        });
+        if (!response.ok) {
+            throw new Error('Error al crear la sección bloque día');
         }
+        //this.notifySubscribers();
     }
-    //
-    delete(codigoSeccion: string, codigoCurso: string): void {
-        this.seccionesBloqueDia = this.seccionesBloqueDia.filter(
-            sbd => !(sbd.codigoSeccion === codigoSeccion && sbd.codigoCurso === codigoCurso)
-        );
+
+    async update(seccionBloqueDia: SeccionBloqueDia): Promise<void> {
+        const response = await fetch(`http://localhost:3000/seccionesBloqueDia/${seccionBloqueDia.codigoSeccion}/${seccionBloqueDia.codigoCurso}/${seccionBloqueDia.codigoBloque}/${seccionBloqueDia.codigoDia}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(seccionBloqueDia)
+        });
+        if (!response.ok) {
+            throw new Error('Error al actualizar la sección bloque día');
+        }
+        //this.notifySubscribers();
     }
-} 
+
+    async delete(codigoSeccion: string, codigoCurso: string): Promise<void> {
+        const response = await fetch(`http://localhost:3000/seccionesBloqueDia/${codigoSeccion}/${codigoCurso}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Error al eliminar la sección bloque día');
+        }
+        //this.notifySubscribers();
+    }
+}
 
 const seccionBloqueDiaRepository = new SeccionBloqueDiaRepository();
 (window as any).seccionBloqueDiaRepository = seccionBloqueDiaRepository;
