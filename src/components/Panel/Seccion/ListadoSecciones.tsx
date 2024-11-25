@@ -43,8 +43,8 @@ export default function ListadoSecciones() {
           {secciones.map((seccion, index) => (
             <li key={index} className="bg-white p-4 rounded-md shadow flex justify-between items-start">
               <div>
-                <p>Código Curso: {seccion.codigoCurso}</p>
-                <p>Código: {seccion.codigo}</p>
+                <h3 className='font-bold'>Seccion: {seccion.codigo}</h3>
+                <h3 className='font-bold'>Código Curso: {seccion.codigoCurso}</h3>
                 <p>Código Profesor: {seccion.codigoProfesor}</p>
                 <p>Sala Cátedra: {seccion.codigoSalaCatedra}</p>
                 <p>Sala Laboratorio: {seccion.codigoSalaLaboratorio}</p>
