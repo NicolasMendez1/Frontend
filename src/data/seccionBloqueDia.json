@@ -5,5 +5,19 @@
     "codigoDia": 1,
     "codigoBloque": 1,
     "esBloqueDeLaboratorio": false
+  },
+  {
+    "codigoSeccion": "INF3240-2",
+    "codigoCurso": "INF3240",
+    "codigoDia": 1,
+    "codigoBloque": 1,
+    "esBloqueDeLaboratorio": false
+  },
+  {
+    "codigoSeccion": "INF3240-3",
+    "codigoCurso": "INF3240",
+    "codigoDia": 1,
+    "codigoBloque": 1,
+    "esBloqueDeLaboratorio": false
   }
 ] 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Bloque from './Bloque'; // Importa el componente Bloque
 
-export default function MatrizHorarios2() {
+export default function MatrizHorario() {
 
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const bloques = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

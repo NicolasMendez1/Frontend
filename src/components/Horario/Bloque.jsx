@@ -1,79 +1,30 @@
 // Bloque.js
-import React, { useState } from 'react';
-import ElementoAgregado from './ElementoAgregado';  // Importamos el nuevo componente
+import React from 'react';
 
-function Bloque({ dia, bloque }) {
-	const [elementosAgregados, setElementosAgregados] = useState([]);
-
-	const estilo_bloque = "px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer hover:bg-gray-100";
-
-	const agregarElemento = () => {
-		setElementosAgregados(prev => [
-			...prev,
-			`Elemento agregado ${prev.length + 1}`
-		]);
-	};
-
-	const eliminarElemento = (index) => {
-		setElementosAgregados(prev =>
-			prev.filter((_, i) => i !== index)  // Filtrar el array excluyendo el elemento con el índice proporcionado
-		);
-	};
-
+export default function Bloque({ dia, bloque, secciones }) {
 	return (
-		<td className={estilo_bloque} onClick={agregarElemento}>
-			<div >
-				<p>{dia} - {bloque}</p>
-				{elementosAgregados.map((elemento, index) => (
-					<div >
-						<ElementoAgregado
-							texto={elemento}
-							onDelete={() => eliminarElemento(index)}
-						/>
-					</div>
-				))}
-			</div>
+		<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border">
+			{secciones && secciones.length > 0 ? (
+				<div className="flex flex-col gap-1">
+					{secciones.map((seccion, index) => (
+						<div 
+							key={`${seccion.codigoSeccion}-${index}`}
+							className="p-1 rounded bg-gray-50"
+						>
+							<div className="font-medium">{seccion.codigoSeccion}</div>
+							<div className="text-xs">{seccion.codigoCurso}</div>
+							{seccion.esBloqueDeLaboratorio && (
+								<div className="text-xs text-blue-600">(Lab)</div>
+							)}
+						</div>
+					))}
+				</div>
+			) : (
+				<div className="h-12"></div>
+			)}
 		</td>
 	);
-
-
-	/*
-	return (
-		<td className={estilo_bloque} onClick={agregarElemento}>
-			<Droppable droppableId={`${dia}-${bloque}`}>
-				{(provided) => (
-					<div
-						ref={provided.innerRef}
-						{...provided.droppableProps}  // Aplica las propiedades necesarias para el área droppable
-						style={{ minHeight: '100px' }}  // Puedes ajustar el estilo del contenedor droppable
-					>
-						<p>{dia} - {bloque}</p>
-						{elementosAgregados.map((elemento, index) => (
-							<Draggable key={index} draggableId={index.toString()} index={index}>
-								{(provided) => (
-									<div
-										ref={provided.innerRef}
-										{...provided.draggableProps}  // Aplica las propiedades necesarias para el item draggable
-										{...provided.dragHandleProps}  // Hace que el item sea arrastrable
-									>
-										<ElementoAgregado
-											texto={elemento}
-											onDelete={() => eliminarElemento(index)}
-										/>
-									</div>
-								)}
-							</Draggable>
-						))}
-						{provided.placeholder}  {}
-					</div>
-				)}
-			</Droppable>
-		</td>
-	);
-	*/
 }
-
-export default Bloque;
 
 
 //TABLE DATA 
