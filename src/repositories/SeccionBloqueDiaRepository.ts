@@ -29,7 +29,7 @@ class SeccionBloqueDiaRepository {
             this.seccionesBloqueDia[index] = seccionBloqueDia;
         }
     }
-
+    //
     delete(codigoSeccion: string, codigoCurso: string): void {
         this.seccionesBloqueDia = this.seccionesBloqueDia.filter(
             sbd => !(sbd.codigoSeccion === codigoSeccion && sbd.codigoCurso === codigoCurso)
