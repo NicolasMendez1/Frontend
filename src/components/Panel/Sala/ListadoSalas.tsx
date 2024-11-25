@@ -20,8 +20,16 @@ export default function ListadoSalas() {
         }
     };
 
+    const handleDelete = async (sala: Sala) => {
+        await salaRepository.delete(sala.codigo);
+    }
+
     useEffect(() => {
         cargarSalas();
+        salaRepository.subscribe(cargarSalas);
+        return () => {
+            salaRepository.unsubscribe(cargarSalas);
+        };
     }, []);
 
     if (loading) {
@@ -40,7 +48,7 @@ export default function ListadoSalas() {
               </div>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                onClick={() => console.log(sala)}
+                onClick={() => handleDelete(sala)}
                 aria-label={`Delete sala ${sala.nombre}`}
               >
                 Eliminar

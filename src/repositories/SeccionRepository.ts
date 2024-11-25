@@ -50,6 +50,16 @@ class SeccionRepository {
         }
         this.notifySubscribers();
     }
+
+    async delete(id: string, codigoCurso: string): Promise<void> {
+        const response = await fetch(`http://localhost:3000/secciones/${id}/${codigoCurso}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Error al eliminar la sección');
+        }
+        this.notifySubscribers();
+    }
 }
 
 const seccionRepository = new SeccionRepository();

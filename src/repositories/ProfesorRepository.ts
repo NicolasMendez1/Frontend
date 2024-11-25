@@ -51,6 +51,16 @@ class ProfesorRepository {
         }
         this.notifySubscribers();
     }
+
+    async delete(codigo: number): Promise<void> {
+        const response = await fetch(`http://localhost:3000/profesores/${codigo}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Error al eliminar el profesor');
+        }
+        this.notifySubscribers();
+    }
 }
 
 const profesorRepository = new ProfesorRepository();

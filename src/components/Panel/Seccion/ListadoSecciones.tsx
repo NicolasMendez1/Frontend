@@ -22,6 +22,10 @@ export default function ListadoSecciones() {
         }
     };
 
+    const handleDelete = async (seccion: Seccion) => {
+        await seccionRepository.delete(seccion.codigo, seccion.codigoCurso);
+    }
+
     useEffect(() => {
         cargarSecciones();
         seccionRepository.subscribe(cargarSecciones);
@@ -48,7 +52,7 @@ export default function ListadoSecciones() {
               </div>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                onClick={() => console.log(seccion)}
+                onClick={() => handleDelete(seccion)}
                 aria-label={`Delete section ${seccion.codigo}`}
               >
                 Eliminar

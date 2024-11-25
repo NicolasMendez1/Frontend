@@ -29,6 +29,10 @@ export default function ListadoProfesores() {
         };
     }, []);
 
+    const handleDelete = async (profesor: Profesor) => {
+        await profesorRepository.delete(profesor.codigo);
+    }
+
     if (loading) {
         return <div>Cargando profesores...</div>;
     }
@@ -52,7 +56,7 @@ export default function ListadoProfesores() {
               </div>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                onClick={() => console.log(profesor)}
+                onClick={() => handleDelete(profesor)}
                 aria-label={`Delete profesor ${profesor.nombre}`}
               >
                 Eliminar

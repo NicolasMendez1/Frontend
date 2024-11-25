@@ -52,6 +52,16 @@ class SalaRepository {
         }
         this.notifySubscribers();
     }
+
+    async delete(id: string): Promise<void> {
+        const response = await fetch(`http://localhost:3000/salas/${id}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Error al eliminar la sala');
+        }
+        this.notifySubscribers();
+    }
 }
 
 export const salaRepository = new SalaRepository();
