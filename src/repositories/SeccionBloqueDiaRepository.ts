@@ -63,14 +63,14 @@ class SeccionBloqueDiaRepository {
         //this.notifySubscribers();
     }
 
-    async delete(codigoSeccion: string, codigoCurso: string): Promise<void> {
-        const response = await fetch(`http://localhost:3000/seccionesBloqueDia/${codigoSeccion}/${codigoCurso}`, {
+    async delete(codigoSeccion: string, codigoCurso: string, codigoBloque: number, codigoDia: number): Promise<void> {
+        const response = await fetch(`http://localhost:3000/seccionesBloqueDia/${codigoSeccion}/${codigoCurso}/${codigoBloque}/${codigoDia}`, {
             method: 'DELETE'
         });
         if (!response.ok) {
             throw new Error('Error al eliminar la sección bloque día');
         }
-        //this.notifySubscribers();
+        this.notifySubscribers();
     }
 }
 
