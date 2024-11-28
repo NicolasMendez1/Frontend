@@ -48,9 +48,9 @@ class SeccionRepository {
             body: JSON.stringify(seccion)
         });
         if (!response.ok) {
-            const errorMessage = 'Error al crear la sección';
-            alert(errorMessage);
-            throw new Error(errorMessage);
+            const errorData = await response.json();
+            alert(errorData.error);
+            throw new Error(errorData.error);
         }
         this.notifySubscribers();
     }
