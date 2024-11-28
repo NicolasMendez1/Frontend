@@ -48,7 +48,9 @@ class SalaRepository {
             body: JSON.stringify(sala)
         });
         if (!response.ok) {
-            throw new Error('Error al crear la sala');
+            const errorMessage = 'Error al crear la sala';  
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
         this.notifySubscribers();
     }

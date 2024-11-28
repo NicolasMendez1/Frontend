@@ -46,7 +46,9 @@ class CursoRepository {
             body: JSON.stringify(curso)
         });
         if (!response.ok) {
-            throw new Error('Error al crear el curso');
+            const errorMessage = 'Error al crear el curso';
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
         this.notifySubscribers();
     }

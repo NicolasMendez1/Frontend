@@ -46,7 +46,9 @@ class SeccionBloqueDiaRepository {
             body: JSON.stringify(seccionBloqueDia)
         });
         if (!response.ok) {
-            throw new Error('Error al crear la sección bloque día');
+            const errorData = await response.json();
+            alert(errorData.error);
+            throw new Error(errorData.error);
         }
         //this.notifySubscribers();
     }

@@ -51,7 +51,9 @@ class ProfesorRepository {
             body: JSON.stringify(profesor)
         });
         if (!response.ok) {
-            throw new Error('Error al crear el profesor');
+            const errorMessage = 'Error al crear el profesor';
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
         this.notifySubscribers();
     }

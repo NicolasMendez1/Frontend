@@ -48,7 +48,9 @@ class SeccionRepository {
             body: JSON.stringify(seccion)
         });
         if (!response.ok) {
-            throw new Error('Error al crear la sección');
+            const errorMessage = 'Error al crear la sección';
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
         this.notifySubscribers();
     }
