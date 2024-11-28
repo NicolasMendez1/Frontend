@@ -49,8 +49,8 @@ export default function ListadoCursos() {
                 <p>Horas Cátedra: {curso.horasCatedra}</p>
                 <p>Horas Laboratorio: {curso.horasLaboratorio}</p>
                 <p>Cantidad de Estudiantes: {curso.cantidadDeEstudiantes}</p>
-                <p>Es Atemporal: {curso.esAtemporal ? 'Si' : 'No'}</p>
-                <p>Es Curso General: {curso.esCursoGeneral ? 'Si' : 'No'}</p>
+                {/* <p>Es Atemporal: {curso.esAtemporal ? 'Si' : 'No'}</p> */}
+                {/* <p>Es Curso General: {curso.esCursoGeneral ? 'Si' : 'No'}</p> */}
               </div>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"

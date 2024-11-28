@@ -40,6 +40,10 @@ class ProfesorRepository {
         return this.profesores;
     }
 
+    getProfesorByCodigo(codigo: number): Profesor | undefined {
+        return this.profesores.find(profesor => profesor.codigo === codigo);
+    }
+
     async createProfesor(profesor: Profesor): Promise<void> {
         const response = await fetch('http://localhost:3000/profesores', {
             method: 'POST',

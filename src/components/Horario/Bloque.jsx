@@ -76,7 +76,7 @@ export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 				  {seccion.infoSeccion && (
 					<>
 					  <div className="text-xs text-gray-600">
-						Profesor: {seccion.infoSeccion.codigoProfesor}
+						Profesor: {profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.nombre + ' ' + profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.apellidoPaterno + ' ' + profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.apellidoMaterno}
 					  </div>
 					  {!seccion.esBloqueDeLaboratorio && (
 					  <div className="text-xs text-gray-600">
