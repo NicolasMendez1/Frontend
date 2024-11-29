@@ -5,10 +5,25 @@ class SeccionRepository {
     seccionSeleccionada: Seccion | null = null;
     esBloqueLaboratorio: boolean = false;
     subscribers: (() => void)[] = [];
+    subscribersToSeccionSeleccionada: (() => void)[] = [];
 
     constructor() {
         this.fetchSecciones();
     }
+
+    suscribeToSeccionSeleccionada(callback: () => void): void {
+        this.subscribersToSeccionSeleccionada.push(callback);
+    }
+
+    unsubscribeToSeccionSeleccionada(callback: () => void): void {
+        this.subscribersToSeccionSeleccionada = this.subscribersToSeccionSeleccionada.filter(sub => sub !== callback);
+    }
+
+    notifySubscribersToSeccionSeleccionada(): void {
+        this.subscribersToSeccionSeleccionada.forEach(callback => {
+            callback();
+        });
+    }   
 
     subscribe(callback: () => void): void {
         this.subscribers.push(callback);
@@ -65,9 +80,10 @@ class SeccionRepository {
         this.notifySubscribers();
     }
 
-    setSeccionSeleccionada(seccion: Seccion, esBloqueLaboratorio: boolean): void {
+    setSeccionSeleccionada(seccion: Seccion | null, esBloqueLaboratorio: boolean): void {
         this.seccionSeleccionada = seccion;
         this.esBloqueLaboratorio = esBloqueLaboratorio;
+        this.notifySubscribersToSeccionSeleccionada();
     }
 
     getSeccionSeleccionada(): [Seccion, boolean] | null {
