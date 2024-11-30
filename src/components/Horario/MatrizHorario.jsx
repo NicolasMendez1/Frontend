@@ -141,11 +141,21 @@ export default function MatrizHorario() {
               Nivel {nivel}
             </button>
           ))}
+                      <button onClick={async () => {
+              try {
+                await validarHorarioService.validarHorario();
+                exportPDF();
+              } catch (error) {
+                console.error('Error printing PDF:', error);
+              }
+            }}
+              className="px-4 py-2 rounded-md bg-blue-500 text-white font-bold hover:bg-blue-700"
+            >Validar horario y generar PDF</button>
         </div>
       </div>
-
+      <header  className="App-header">
       <div className="overflow-x-auto shadow-lg">
-        <table className="min-w-full table-auto divide-y divide-gray-200">
+        <table id="Horario" className="min-w-full table-auto divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th className={estilo_dia}>Bloque</th>
@@ -173,6 +183,7 @@ export default function MatrizHorario() {
           </tbody>
         </table>
       </div>
+      </header>
     </div>
   );
 }
