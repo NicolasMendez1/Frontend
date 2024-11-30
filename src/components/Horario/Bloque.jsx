@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import seccionRepository from '../../repositories/SeccionRepository';
 import seccionBloqueDiaRepository from '../../repositories/SeccionBloqueDiaRepository';
+import cursoRepository from '../../repositories/CursoRepository';
 
 export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 	const [seccionesLocales, setSeccionesLocales] = useState(seccionesIniciales);
@@ -68,37 +69,34 @@ export default function Bloque({ dia, bloque, secciones: seccionesIniciales }) {
 			  {seccionesLocales.map((seccion, index) => (
 				<div 
 				  key={`${seccion.codigoSeccion}-${index}`}
-				  className="p-1 rounded bg-gray-50 hover:bg-gray-100 transition-colors relative group"
+				  className={`p-1 rounded transition-colors relative group
+					${seccion.esBloqueDeLaboratorio 
+					  ? 'bg-blue-100 hover:bg-blue-200' 
+					  : 'bg-green-100 hover:bg-green-200'}`}
 				>
 				  <div className="font-medium">
-					{seccion.codigoSeccion} - {seccion.codigoCurso}
+					{seccion.codigoSeccion} - {seccion.codigoCurso} 
 				  </div>
 				  {seccion.infoSeccion && (
 					<>
 					  <div className="text-xs text-gray-600">
+						{cursoRepository.getNombreByCodigo(seccion.codigoCurso)}
+					  </div>
+					  <div className="text-xs text-gray-600">
 						Profesor: {profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.nombre + ' ' + profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.apellidoPaterno + ' ' + profesorRepository.getProfesorByCodigo(seccion.infoSeccion.codigoProfesor)?.apellidoMaterno}
 					  </div>
-					  {!seccion.esBloqueDeLaboratorio && (
 					  <div className="text-xs text-gray-600">
-						Sala Catedra: {seccion.infoSeccion.codigoSalaCatedra}
+						Sala {seccion.esBloqueDeLaboratorio ? "Laboratorio" : "Catedra"}: {seccion.infoSeccion.codigoSalaCatedra}
 					  </div>
-					  )}
-					  {seccion.esBloqueDeLaboratorio && (
-					  <div className="text-xs text-gray-600">
-						Sala Laboratorio: {seccion.infoSeccion.codigoSalaLaboratorio}
-					  </div>
-					  )}
 					</>
 				  )}
-				  {seccion.esBloqueDeLaboratorio && (
-					<div className="text-xs text-blue-600 font-medium mt-1">(Lab)</div>
-				  )}
+			
 				  <button
 					className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white p-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
 					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						handleDelete(seccion.codigoSeccion, seccion.codigoCurso)
+					  e.preventDefault();
+					  e.stopPropagation();
+					  handleDelete(seccion.codigoSeccion, seccion.codigoCurso)
 					}}
 				  >
 					<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -62,6 +62,11 @@ class CursoRepository {
         }
         this.notifySubscribers();
     }
+
+    getNombreByCodigo(codigo: string): string | undefined {
+        const curso = this.cursos.find(c => c.codigo === codigo);
+        return curso ? curso.nombre : undefined;
+    }
 }
 
 const cursoRepository = new CursoRepository();
