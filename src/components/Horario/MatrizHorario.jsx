@@ -5,6 +5,8 @@ import seccionRepository from '../../repositories/SeccionRepository';
 import seccionBloqueDiaRepository from '../../repositories/SeccionBloqueDiaRepository';
 import cursoRepository from '../../repositories/CursoRepository';
 import { validarHorarioService } from "../../services/validarHorarioService";
+import exportPDF from "../PDF/pdfUtil.js"
+
 
 export default function MatrizHorario() {
   const [secciones, setSecciones] = useState([]);
@@ -145,7 +147,7 @@ export default function MatrizHorario() {
                       <button onClick={async () => {
               try {
                 await validarHorarioService.validarHorario();
-                exportPDF();
+                exportPDF(nivelSeleccionado);
               } catch (error) {
                 console.error('Error printing PDF:', error);
               }
