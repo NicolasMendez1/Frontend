@@ -4,6 +4,7 @@ import seccionBloqueDiaData from '../../data/seccionBloqueDia.json';
 import seccionRepository from '../../repositories/SeccionRepository';
 import seccionBloqueDiaRepository from '../../repositories/SeccionBloqueDiaRepository';
 import cursoRepository from '../../repositories/CursoRepository';
+import { validarHorarioService } from "../../services/validarHorarioService";
 
 export default function MatrizHorario() {
   const [secciones, setSecciones] = useState([]);
